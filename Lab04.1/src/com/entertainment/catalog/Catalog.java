@@ -9,9 +9,11 @@
 package com.entertainment.catalog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import com.entertainment.Television;
 
@@ -28,7 +30,13 @@ public class Catalog {
    * A no-matches result should be an empty collection (not null).
    */
   public static Collection<Television> findByBrand(String brand) {
-    return null;
+    Collection<Television> result = new ArrayList<>();
+    for (Television tv: catalog) {
+      if (tv.getBrand().equals(brand)) {
+        result.add(tv);
+      }
+    }
+    return result;
   }
   
   /**
@@ -36,8 +44,12 @@ public class Catalog {
    * with a corresponding collection of matching Televisions for that brand.
    * A no-brands-passed result should be an empty map (not null).
    */
-  public static Map<String,Collection<Television>> findByBrands(String... brands) {
-    return null;
+  public static Map<String, Collection<Television>> findByBrands(String... brands) {
+    Map<String, Collection<Television>> result = new HashMap<>();
+    for (String brand : brands) {
+      result.put(brand, findByBrand(brand));
+    }
+    return result;
   }
 
   /**

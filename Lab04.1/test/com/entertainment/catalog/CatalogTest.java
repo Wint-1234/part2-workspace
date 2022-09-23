@@ -10,6 +10,8 @@ package com.entertainment.catalog;
 
 import static org.junit.Assert.*;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import org.junit.Test;
 import com.entertainment.Television;
 
@@ -24,4 +26,31 @@ public class CatalogTest {
     assertNotNull(tvs);
     assertTrue(tvs.isEmpty());
   }
+
+  @Test
+  public void testFindByBrandWithMatches() {
+    Collection<Television> tvs = Catalog.findByBrand("Sony");
+    assertNotNull(tvs);
+    assertFalse(tvs.isEmpty());
+    assertEquals(7, tvs.size());
+  }
+
+  @Test
+  public void testFindByBrandNoBrands() {
+    var tvs = Catalog.findByBrands();
+    assertNotNull(tvs);
+    assertTrue(tvs.isEmpty());
+  }
+
+  @Test
+  public void testFindByBrandSomeBrands() {
+    var selections = Catalog.findByBrands("Sony", "Zenith", "NO-MATCHES");
+    assertNotNull(selections);
+    assertFalse(selections.isEmpty());
+    assertEquals(3, selections.size());
+    assertEquals(7, selections.get("Sony").size());
+    assertEquals(9, selections.get("Zenith").size());
+    assertEquals(0, selections.get("NO-MATCHES").size());
+  }
+
 }
