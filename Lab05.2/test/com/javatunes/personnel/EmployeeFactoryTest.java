@@ -1,6 +1,9 @@
 package com.javatunes.personnel;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
@@ -36,7 +39,7 @@ public class EmployeeFactoryTest {
     seMap.put("name",     "Jackie");
     seMap.put("hireDate", "1990-08-24");
     seMap.put("salary",   "50000.0");
-    
+
     heMap = new HashMap<>();
     heMap.put("type",     "HE");
     heMap.put("name",     "Jackie");
@@ -44,7 +47,7 @@ public class EmployeeFactoryTest {
     heMap.put("rate",     "50.0");
     heMap.put("hours",    "40.0");
   }
-  
+
   /**
    * TASK: verify that passing seMap into your factory returns a SalariedEmployee, with all properties set.
    * to check an object's type, you can use instanceof or check its Class object (preferred):
@@ -52,23 +55,33 @@ public class EmployeeFactoryTest {
    */
   @Test
   public void testCreateEmployeeSalaried() {
-    // TODO
+    SalariedEmployee salariedEmp = (SalariedEmployee) EmployeeFactory.createEmployee(seMap);
+    assertEquals(50000.0, salariedEmp.getSalary(), .001);
   }
-  
+
   /**
    * TASK: verify that passing heMap into your factory returns a HourlyEmployee, with all properties set.
    */
   @Test
   public void testCreateEmployeeHourly() {
-    // TODO
+    HourlyEmployee hourlyEmp = (HourlyEmployee) EmployeeFactory.createEmployee(heMap);;
+    assertEquals(50.0, hourlyEmp.getRate(), .001);
+    assertEquals(40.0, hourlyEmp.getHours(), .001);
   }
-  
+
   /**
    * TASK: verify that passing a map with an invalid "type" value results in IllegalArgumentException.
    * The only valid values for "type" are "HE" or "SE".
    */
-  @Test
+  @Test (expected = IllegalArgumentException.class)
   public void testCreateEmployeeInvalidTypeThrowsIllegalArgumentException() {
-    // TODO
+    Map<String,String> invalidTypeMap = Map.of("type", "INVALID-TYPE");
+    try {
+      EmployeeFactory.createEmployee(invalidTypeMap);
+      fail("Should have thrown IllegalArgumentException");
+    }
+    catch (IllegalArgumentException e) {
+      assertEquals("Invalid type: INVALID-TYPE", e.getMessage());
+    }
   }
 }
