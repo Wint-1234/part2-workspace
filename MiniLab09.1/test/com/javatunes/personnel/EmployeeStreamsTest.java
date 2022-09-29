@@ -32,11 +32,12 @@ public class EmployeeStreamsTest {
    */
   @Test
   public void testSalaryLessThanSortNaturalOrder() {
-    List<Employee> employees = allEmployees.stream()
+    List<Employee> employees = allEmployees
+        .stream()
       .filter(emp -> emp.getSalary() < 40000.0)
       .sorted()  // natural order
       .collect(Collectors.toList());
-    
+
     assertEquals(2, employees.size());
     assertEquals(Long.valueOf(2),  employees.get(0).getId());
     assertEquals(Long.valueOf(15), employees.get(1).getId());
